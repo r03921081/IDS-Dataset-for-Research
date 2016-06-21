@@ -5,8 +5,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.feature_extraction import DictVectorizer as dv
 
-raw_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
-#raw_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
+#raw_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
+raw_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
 print(raw_data.columns)
 print(raw_data.shape)
 #print(raw_data)
@@ -15,7 +15,7 @@ print(raw_data.shape)
 #print(raw_data['label'])
 #print(data.corr()['label'])
 
-old_data = raw_data.drop(['id', 'attack_cat', 'label'], axis=1)
+old_data = raw_data.drop(['attack_cat'], axis=1)
 print(old_data)
 pre_data = old_data.T.to_dict().values()
 vectorizer = dv(sparse = False)
@@ -25,8 +25,8 @@ print(dv_data)
 #encode_data = pd.get_dummies(raw_data['state'])
 #print(encode_data)
 
-new_data = raw_data.drop(['id', 'proto', 'service', 'state', 'attack_cat', 'label'], axis=1)
-new_target = raw_data['label']
+new_data = raw_data.drop(['proto', 'service', 'state', 'attack_cat'], axis=1)
+new_target = raw_data['attack_cat']
 #print(new_data.shape)
 #print(new_data)
 
