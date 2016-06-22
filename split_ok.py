@@ -22,11 +22,12 @@ print(raw_test_data.shape)
 frames = [raw_train_data, raw_test_data]
 raw_data = pd.concat(frames, keys=['train', 'test'])
 
-#vectorizer = dv(sparse = False)
+vectorizer = dv(sparse = False)
 
-#old_raw_data = raw_data.drop(['id', 'attack_cat', 'label'], axis=1)
-#pre_raw_data = old_raw_data.T.to_dict().values()
-#dv_raw_data = vectorizer.fit_transform(pre_raw_data)
+old_raw_data = raw_data.drop(['id', 'attack_cat', 'label'], axis=1)
+pre_raw_data = old_raw_data.T.to_dict().values()
+dv_raw_data = vectorizer.fit_transform(pre_raw_data)
+print(vectorizer.get_feature_names())
 
 #old_train_data = raw_train_data.drop(['id', 'attack_cat', 'label'], axis=1)
 #pre_train_data = old_train_data.T.to_dict().values()
