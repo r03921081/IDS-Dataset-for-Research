@@ -19,17 +19,24 @@ raw_test_data = pd.read_csv("unsw/UNSW_NB15_testing-set.csv", delimiter=',', enc
 print(raw_test_data.columns)
 print(raw_test_data.shape)
 
-vectorizer = dv(sparse = False)
+frames = [raw_train_data, raw_test_data]
+raw_data = pd.concat(frames, keys=['train', 'test'])
 
-old_train_data = raw_train_data.drop(['id', 'attack_cat', 'label'], axis=1)
-pre_train_data = old_train_data.T.to_dict().values()
-dv_train_data = vectorizer.fit_transform(pre_train_data)
-dv_train_target = raw_train_data['label']
+#vectorizer = dv(sparse = False)
 
-old_test_data = raw_test_data.drop(['id', 'attack_cat', 'label'], axis=1)
-pre_test_data = old_test_data.T.to_dict().values()
-dv_test_data = vectorizer.fit_transform(pre_test_data)
-dv_test_target = raw_test_data['label']
+#old_raw_data = raw_data.drop(['id', 'attack_cat', 'label'], axis=1)
+#pre_raw_data = old_raw_data.T.to_dict().values()
+#dv_raw_data = vectorizer.fit_transform(pre_raw_data)
+
+#old_train_data = raw_train_data.drop(['id', 'attack_cat', 'label'], axis=1)
+#pre_train_data = old_train_data.T.to_dict().values()
+#dv_train_data = vectorizer.fit_transform(pre_train_data)
+#dv_train_target = raw_train_data['label']
+
+#old_test_data = raw_test_data.drop(['id', 'attack_cat', 'label'], axis=1)
+#pre_test_data = old_test_data.T.to_dict().values()
+#dv_test_data = vectorizer.fit_transform(pre_test_data)
+#dv_test_target = raw_test_data['label']
 
 new_train_data = raw_train_data.drop(['id', 'proto', 'service', 'state', 'attack_cat', 'label'], axis=1)
 new_train_target = raw_train_data['label']
@@ -39,18 +46,20 @@ new_test_target = raw_test_data['label']
 np_train_data = new_train_data.as_matrix()
 np_train_target = new_train_target.as_matrix()
 np_test_data = new_test_data.as_matrix()
-np_test_target = new_test_data.as_matrix()
+np_test_target = new_test_target.as_matrix()
+#print(np_train_data[1])
+#print(np_test_data[1])
 
 # NaiveBayes
-model = GaussianNB()
-model.fit(dv_train_data, dv_train_target)
-print(model)
+#model = GaussianNB()
+#model.fit(dv_train_data, dv_train_target)
+#print(model)
 
-expected = dv_train_target
-predicted = model.predict(dv_train_data)
+#expected = dv_test_target
+#predicted = model.predict(dv_test_data)
 
-print(metrics.classification_report(expected, predicted))
-print(metrics.confusion_matrix(expected, predicted))
+#print(metrics.classification_report(expected, predicted))
+#print(metrics.confusion_matrix(expected, predicted))
 
 model = GaussianNB()
 model.fit(np_train_data, np_train_target)
@@ -58,20 +67,21 @@ print(model)
 
 expected = np_test_target
 predicted = model.predict(np_test_data)
+
 
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
 
 # DecisionTree
-model = DecisionTreeClassifier()
-model.fit(dv_train_data, dv_train_target)
-print(model)
+#model = DecisionTreeClassifier()
+#model.fit(dv_train_data, dv_train_target)
+#print(model)
 
-expected = dv_test_target
-predicted = model.predict(dv_test_data)
+#expected = dv_test_target
+#predicted = model.predict(dv_test_data)
 
-print(metrics.classification_report(expected, predicted))
-print(metrics.confusion_matrix(expected, predicted))
+#print(metrics.classification_report(expected, predicted))
+#print(metrics.confusion_matrix(expected, predicted))
 
 model = DecisionTreeClassifier()
 model.fit(np_train_data, np_train_target)
@@ -82,6 +92,4 @@ predicted = model.predict(np_test_data)
 
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
-
-
 
