@@ -18,6 +18,8 @@ print(raw_train_data.shape)
 
 copy_train = raw_train_data.drop(['id', 'attack_cat', 'label'], axis=1)
 train_target = raw_train_data['label']
+
+print(copy_train.index)
 new_train = pd.DataFrame(index = copy_train.index, columns = copy_train.columns)
 cat_train = pd.DataFrame(index = copy_train.index, columns = copy_train.columns)
 
