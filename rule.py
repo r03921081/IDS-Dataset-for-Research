@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from fp_growth import find_frequent_itemsets
 
-minsup = 0
+minsup = 5000
 feature = 5
 
 attack_table = ["Normal", "Reconnaissance", "Backdoor", "DoS", "Exploits", "Analysis", "Fuzzers", "Worms", "Shellcode", "Generic"]
@@ -32,16 +32,20 @@ for label in attack_table:
 	transactions = np_data.tolist()
 
 	minsup = data.shape[0]
+	if minsup < 1000:
+		minsup = 1000
 	print(minsup)
+
 	count = 0
 	for itemset in find_frequent_itemsets(transactions, minsup):
+		count = count + 1
+		#print(itemset)
 		#print("ItemSet Length " + str(len(itemset)))
-		if len(itemset) == feature:
-			new_itemset = []
-			count = count + 1
-			for item in itemset:
-				print(item)
-				new_itemset.append(category[item])
-			print(new_itemset)
+		#if len(itemset) == feature:
+		#	new_itemset = []
+		#	count = count + 1
+		#	for item in itemset:
+		#		print(item)
+		#		new_itemset.append(category[item])
+		#	print(new_itemset)
 	print count
-
