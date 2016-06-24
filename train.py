@@ -27,8 +27,10 @@ number_train = raw_train_data.drop(['id', 'proto', 'state', 'service', 'attack_c
 
 for feature in number_train.columns:
 	temp = number_train[feature].as_matrix()
-	new_train[feature] = pd.cut(temp, 10)
-	cat_train[feature] = pd.cut(temp, 10)
+	value = pd.cut(temp, 10)
+	print(value)
+	new_train[feature] = value
+	cat_train[feature] = value
 
 i = 0
 for i in range(82332):
