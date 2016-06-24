@@ -34,11 +34,12 @@ for label in attack_table:
 	minsup = data.shape[0]
 	if minsup < 1000:
 		minsup = 1000
-	print(minsup)
+	#print(minsup)
 
 	count = 0
-	for itemset in find_frequent_itemsets(transactions, minsup):
+	for itemset, sup in find_frequent_itemsets(transactions, minsup, True):
 		count = count + 1
+		print(sup)
 		#print(itemset)
 		#print("ItemSet Length " + str(len(itemset)))
 		#if len(itemset) == feature:
@@ -48,4 +49,4 @@ for label in attack_table:
 		#		print(item)
 		#		new_itemset.append(category[item])
 		#	print(new_itemset)
-	print count
+	print("Count " + str(count))
