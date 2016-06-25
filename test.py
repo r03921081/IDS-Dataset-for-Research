@@ -19,46 +19,12 @@ state_table = {"INT": 1, "FIN": 2, "REQ": 3, "ACC": 4, "CON": 5, "RST": 6, "CLO"
 
 
 # TRAINING DATA
-raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
+raw_train_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
 print(raw_train_data.columns)
 print(raw_train_data.shape)
 
-copy_train = raw_train_data.drop(['id', 'attack_cat', 'label'], axis=1)
-train_target = raw_train_data['label']
-cat_train = pd.DataFrame(index = copy_train.index, columns = copy_train.columns)
-test_train = pd.DataFrame(index = copy_train.index, columns = ['dur', 'proto', 'state', 'service'])
-
-number_train = raw_train_data.drop(['id', 'proto', 'state', 'service', 'attack_cat', 'label'], axis=1)
-
-temp = number_train['dur'].as_matrix()
-test_train['dur'] = pd.cut(temp, 10)
-
-for feature in number_train.columns:
-    temp = number_train[feature].as_matrix()
-    cat_train[feature] = pd.cut(temp, 10)
-
-cat_train["proto"] = raw_train_data["proto"]
-cat_train["service"] = raw_train_data["service"]
-cat_train["state"] = raw_train_data["state"]
-
-test_train["proto"] = raw_train_data["proto"]
-test_train["service"] = raw_train_data["service"]
-test_train["state"] = raw_train_data["state"]
-
-#print(cat_train.columns)
-#print(cat_train.shape)
-#print(cat_train.values[0])
-#print(cat_train.values[1])
-#print(cat_train.values[2])
-
-print(test_train.columns)
-print(test_train.shape)
-#print(test_train.values[0])
-#print(test_train.values[1])
-#print(test_train.values[2])
-
-
-
+train_data = raw_train_data.drop(['attack_cat'], axis=1)
+train_target = raw_train_data['attack_cat']
 
 def subsets(arr):
     """ Returns non empty subsets of arr"""
@@ -152,9 +118,9 @@ def printResults(items, rules):
 
 def dataFromFile():
     """Function which reads from the file and yields a generator"""
-    for i in range(0, 10):
-        print(copy_train.values[i])
-        record = frozenset(copy_train.values[i])
+    for i in range(0, 82332):
+        print(train_data.values[i])
+        record = frozenset(train_data.values[i])
         yield record
 
 
