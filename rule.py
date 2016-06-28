@@ -23,6 +23,8 @@ train_data = raw_train_data.sample(frac=0.1, replace=True)
 #print(train_data)
 transactions = []
 
+label_item = {}
+
 for label in attack_table:
 	print(label)
 	temp = train_data[train_data["attack_cat"]==label]
@@ -32,14 +34,16 @@ for label in attack_table:
 	transactions = np_data.tolist()
 
 	minsup = data.shape[0]
-	if minsup < 1000:
-		minsup = 1000
+	if minsup < 500:
+		minsup = 500
 	#print(minsup)
 
 	count = 0
 	for itemset, sup in find_frequent_itemsets(transactions, minsup, True):
-		count = count + 1
-		print(sup)
+		label_item[itemset] = sup
+		new_itemset = sorted(label_item.items(), key=operator.itemgetter(1), reverse=True)
+		for i in range(10):
+			print(new_itemset[i])
 		#print(itemset)
 		#print("ItemSet Length " + str(len(itemset)))
 		#if len(itemset) == feature:

@@ -9,6 +9,7 @@ raw_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encodin
 #raw_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
 print(raw_data.columns)
 print(raw_data.shape)
+print(raw_data[raw_data['attack_cat']=='Normal'])
 #print(raw_data)
 #print(data[(data['proto']=='tcp') and (data['service']=='http')])
 #print(data[data['service']=='http'])

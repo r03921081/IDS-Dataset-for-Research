@@ -14,7 +14,7 @@ raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', e
 train_data = pd.DataFrame(index = raw_train_data.index, columns = feature)
 
 for item in feature:
-	train_data[feature] = raw_train_data[feature]
+	train_data[item] = raw_train_data[item]
 
 train_target = raw_train_data['label']
 
@@ -32,6 +32,7 @@ print(model)
 expected = np_test_target
 predicted = model.predict(np_test_data)
 
+print("LogisticRegression")
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
 
@@ -43,6 +44,7 @@ print(model)
 expected = np_test_target
 predicted = model.predict(np_test_data)
 
+print("NaiveBayes GaussianNB")
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
 
@@ -54,5 +56,6 @@ print(model)
 expected = np_test_target
 predicted = model.predict(np_test_data)
 
+print("DecisionTree")
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
