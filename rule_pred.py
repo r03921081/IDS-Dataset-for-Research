@@ -7,7 +7,11 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["trans_depth", "sttl", "ct_dst_ltm", "is_ftp_login", "sbytes", "spkts", "ct_srv_src", "sloss"]
+#feature = ["is_sm_ips_ports", "dloss", "response_body_len", "dmean", "ct_dst_ltm", "is_ftp_login", "sbytes", "ackdat", "ct_dst_sport_ltm", "sloss", "trans_depth", "dload", "synack", "dpkts", "sttl", "tcprtt", "ct_srv_src", "ct_flw_http_mthd", "spkts", "dbytes"]
+
+feature = ["is_sm_ips_ports", "dloss", "response_body_len", "dmean", "ct_dst_ltm", "is_ftp_login", "sbytes", "ackdat", "ct_dst_sport_ltm", "sloss", "trans_depth", "dload", "synack", "dpkts", "sttl", "tcprtt", "ct_srv_src", "ct_flw_http_mthd", "spkts", "dbytes", "djit", "sjit", "sinpkt", "dinpkt"]
+
+print(len(feature))
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
 
