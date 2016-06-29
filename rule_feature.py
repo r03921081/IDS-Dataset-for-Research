@@ -111,4 +111,10 @@ print("Union")
 print(list(set(normal_feature).union(set(abnormal_feature))))
 
 print("Difference")
+print("normal")
+print(list(set(normal_feature).difference(set(abnormal_feature))))
+print("abnormal")
 print(list(set(abnormal_feature).difference(set(normal_feature))))
+
+print("And")
+print(list((set(normal_feature)&(set(abnormal_feature)))))

@@ -7,7 +7,7 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["sttl", "ct_dst_ltm", "is_ftp_login", "ct_srv_src", "djit"]
+feature = ["trans_depth", "sttl", "ct_dst_ltm", "is_ftp_login", "sbytes", "spkts", "ct_srv_src", "sloss"]
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
 
