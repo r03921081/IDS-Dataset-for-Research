@@ -14,7 +14,7 @@ fAbnormal = {}
 
 attack_feature = {"normal": fNormal, "anomaly": fAbnormal}
 
-raw_train_data = pd.read_csv("nsl_kdd/KDDTrain_Discretization.csv", delimiter=',', encoding="utf-8-sig")
+raw_train_data = pd.read_csv("nsl_kdd/KDD_Train_All_Discretization.csv", delimiter=',', encoding="utf-8-sig")
 
 #raw_train_data = raw_data.drop(["ct_dst_sport_ltm"], axis=1)
 

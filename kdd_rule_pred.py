@@ -7,7 +7,7 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["dst_host_count", "src_bytes", "wrong_fragment"]
+feature = ["dst_host_count", "src_bytes"]
 
 raw_train_data = pd.read_csv("nsl_kdd/KDD_Train.csv", delimiter=',', encoding="utf-8-sig")
 raw_test_data = pd.read_csv("nsl_kdd/KDD_Test.csv", delimiter=',', encoding="utf-8-sig")
@@ -76,7 +76,7 @@ predict_normal = 0
 predict_abnormal = 0
 
 for i in range(len(predicted)):
-	if predicted[i] == 0:
+	if predicted[i] == "normal":
 		predict_normal = predict_normal + 1
 	else:
 		predict_abnormal = predict_abnormal + 1
