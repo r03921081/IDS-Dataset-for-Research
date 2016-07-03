@@ -22,9 +22,9 @@ fAbnormal = {}
 
 attack_feature = {"Normal": fNormal, "Reconnaissance": fReconnaissance, "Backdoor": fBackdoor, "DoS": fDoS, "Exploits": fExploits, "Analysis": fAnalysis, "Fuzzers": fFuzzers, "Worms": fWorms, "Shellcode": fShellcode, "Generic": fGeneric, "Abnormal": fAbnormal}
 
-raw_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
+raw_train_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
 
-raw_train_data = raw_data.drop(["ct_dst_sport_ltm"], axis=1)
+#raw_train_data = raw_data.drop(["ct_dst_sport_ltm"], axis=1)
 
 #print(raw_train_data.columns)
 print(raw_train_data.shape)
@@ -36,7 +36,7 @@ for feature in raw_train_data.columns:
 		if item not in category:
 			category[item] = feature
 
-train_data = raw_train_data.sample(frac=0.1, replace=True)
+train_data = raw_train_data.sample(frac=0.2, replace=True)
 #print(train_data)
 transactions = []
 
@@ -49,11 +49,16 @@ for label in attack_table:
 	transactions = np_data.tolist()
 
 	minsup = data.shape[0]
+	#if label == "Normal":
+		#minsup = int(minsup * 9 / 10)
+		#print("Normal:" + str(minsup))
 	if minsup < 500:
 		minsup = 500
 	#print(minsup)
 	if label == "Generic":
 		minsup = 3000
+	
+	#minsup = int(minsup * 9 / 10)	
 
 	label_item = {}
 	new_itemset = []
