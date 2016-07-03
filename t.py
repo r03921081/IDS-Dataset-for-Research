@@ -40,6 +40,8 @@ print("NaiveBayes GaussianNB")
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
 
+
+#-----------------------------------------------------------------------------
 true_positive = 0
 false_positive = 0
 true_negative = 0
@@ -55,18 +57,55 @@ for i in range(len(expected)):
 	else: # if expected[i] == 0 && predicted[i] == 1
 		false_negative = false_negative + 1
 
-
-
+print("")
+print("Truth Table")
 print(str(true_positive) + "\t" + str(false_positive))
 print(str(false_negative) + "\t" + str(true_negative))
 print("")
 
-
 prediction_mother = true_positive + false_positive
-print(prediction_mother)
-print(true_positive)
+#print(prediction_mother)
+#print(true_positive)
 prediction = float(true_positive) / float(prediction_mother)
 print prediction
 
 recall = float(true_positive) / (true_positive + false_negative)
 print recall
+
+predict_normal = 0
+predict_abnormal = 0
+
+for i in range(len(predicted)):
+	if predicted[i] == 0:
+		predict_normal = predict_normal + 1
+	else:
+		predict_abnormal = predict_abnormal + 1
+print("")
+print(predict_normal)
+print(predict_abnormal)
+#-----------------------------------------------------------------------------
+
+second_index = []
+for i in range(len(predicted)):
+	if predicted[i] == 0: # Into next term
+		second_index.append(i+1)
+second_index_num = len(second_index)
+
+second_data = raw_test_data.ix[second_index]
+
+print len(second_index)
+print second_data.shape
+
+second_data.to_csv("unsw/second turn.csv", sep=',', encoding='utf-8-sig')
+
+#-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

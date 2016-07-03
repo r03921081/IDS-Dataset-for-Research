@@ -22,7 +22,10 @@ fAbnormal = {}
 
 attack_feature = {"Normal": fNormal, "Reconnaissance": fReconnaissance, "Backdoor": fBackdoor, "DoS": fDoS, "Exploits": fExploits, "Analysis": fAnalysis, "Fuzzers": fFuzzers, "Worms": fWorms, "Shellcode": fShellcode, "Generic": fGeneric, "Abnormal": fAbnormal}
 
-raw_train_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
+raw_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
+
+raw_train_data = raw_data.drop(["ct_dst_sport_ltm"], axis=1)
+
 #print(raw_train_data.columns)
 print(raw_train_data.shape)
 
