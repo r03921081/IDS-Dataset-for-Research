@@ -7,17 +7,62 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["dst_host_count", "src_bytes"]
+feature = ["num_access_files", "num_file_creations", "service", "num_compromised", "flag", "hot", "num_root", "duration", "num_failed_logins", "protocol_type"]
+
+proto_table = {"tcp": 0, "udp": 1, "icmp": 2}
+service_table = {"ftp_data": 0, "other": 1, "private": 2, "http": 3, "remote_job": 4, "name": 5, "netbios_ns": 6, "eco_i": 7, "mtp": 8, "telnet": 9, "finger": 10, "domain_u": 11, "supdup": 12, "uucp_path": 13, "Z39_50": 14, "smtp": 15, "csnet_ns": 16, "uucp": 17, "netbios_dgm": 18, "urp_i": 19, "auth": 20, "domain": 21, "ftp": 22, "bgp": 23, "ldap": 24, "ecr_i": 25, "gopher": 26, "vmnet": 27, "systat": 28, "http_443": 29, "efs": 30, "whois": 31, "imap4": 32, "iso_tsap": 33, "echo": 34, "klogin": 35, "link": 36, "sunrpc": 37, "login": 38, "kshell": 39, "sql_net": 40, "time": 41, "hostnames": 42, "exec": 43, "ntp_u": 44, "discard": 45, "nntp": 46, "courier": 47, "ctf": 48, "ssh": 49, "daytime": 50, "shell": 51, "netstat": 52, "pop_3": 53, "nnsp": 54, "IRC": 55, "pop_2": 56, "printer": 57, "tim_i": 58, "pm_dump": 59, "red_i": 60, "netbios_ssn": 61, "rje": 62, "X11": 63, "urh_i": 64, "http_8001": 65, "aoi": 66, "http_2784": 67, "tffp_u": 68, "harvest": 69}
+flag_table = {"SF": 0, "S0": 1, "REJ": 2, "RSTR": 3, "SH": 4, "RSTO": 5, "S1": 6, "RSTOS0": 7, "S3": 8, "S2": 9, "OTH": 10}
 
 raw_train_data = pd.read_csv("nsl_kdd/KDD_Train.csv", delimiter=',', encoding="utf-8-sig")
 raw_test_data = pd.read_csv("nsl_kdd/KDD_Test.csv", delimiter=',', encoding="utf-8-sig")
 
+cat_train = pd.DataFrame(index = raw_train_data.index, columns = ["protocol_type", "service", "flag"])
+cat_test = pd.DataFrame(index = raw_test_data.index, columns = ["protocol_type", "service", "flag"])
+
 train_data = pd.DataFrame(index = raw_train_data.index, columns = feature)
 test_data = pd.DataFrame(index = raw_test_data.index, columns = feature)
 
+for i in range(raw_train_data.shape[0]):
+	if raw_train_data["protocol_type"][i] in proto_table:
+		cat_train["protocol_type"][i] = proto_table[raw_train_data["protocol_type"][i]]
+	else:
+		cat_train["protocol_type"][i] = 0
+	if raw_train_data["service"][i] in service_table:
+		cat_train["service"][i] = service_table[raw_train_data["service"][i]]
+	else:
+		cat_train["service"][i] = 0
+	if raw_train_data["flag"][i] in flag_table:
+		cat_train["flag"][i] = flag_table[raw_train_data["flag"][i]]
+	else:
+		cat_train["flag"][i] = 0
+
+for i in range(raw_test_data.shape[0]):
+	if raw_test_data["protocol_type"][i] in proto_table:
+		cat_test["protocol_type"][i] = proto_table[raw_test_data["protocol_type"][i]]
+	else:
+		cat_test["protocol_type"][i] = 0
+	if raw_test_data["service"][i] in service_table:
+		cat_test["service"][i] = service_table[raw_test_data["service"][i]]
+	else:
+		cat_test["service"][i] = 0
+	if raw_test_data["flag"][i] in flag_table:
+		cat_test["flag"][i] = flag_table[raw_test_data["flag"][i]]
+	else:
+		cat_test["flag"][i] = 0
+
 for item in feature:
-	train_data[item] = raw_train_data[item]
-	test_data[item] = raw_test_data[item]
+	if item == "protocol_type":
+		train_data[item] = cat_train[item]
+		test_data[item] = cat_test[item]
+	elif item == "service":
+		train_data[item] = cat_train[item]
+		test_data[item] = cat_test[item]
+	elif item == "flag":
+		train_data[item] = cat_train[item]
+		test_data[item] = cat_test[item]
+	else:
+		train_data[item] = raw_train_data[item]
+		test_data[item] = raw_test_data[item]
 
 train_target = raw_train_data['class']
 test_target = raw_test_data['class']
