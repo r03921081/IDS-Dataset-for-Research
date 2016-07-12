@@ -26,8 +26,12 @@ fAbnormal = {}
 
 attack_feature = {"Normal": fNormal, "Reconnaissance": fReconnaissance, "Backdoor": fBackdoor, "DoS": fDoS, "Exploits": fExploits, "Analysis": fAnalysis, "Fuzzers": fFuzzers, "Worms": fWorms, "Shellcode": fShellcode, "Generic": fGeneric, "Abnormal": fAbnormal}
 
-old_raw_train_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
-print(old_raw_train_data.shape)
+Second_train_data = pd.read_csv("unsw/UNSW_Discretize.csv", delimiter=',', encoding="utf-8-sig")
+print(Second_train_data.shape)
+
+drop_feature = ["dload", "is_sm_ips_ports", "synack", "sttl"]
+
+old_raw_train_data = Second_train_data.drop(drop_feature, axis=1)
 raw_train_data = pd.DataFrame(index = old_raw_train_data.index, columns = old_raw_train_data.columns)
 #print(old_raw_train_data.ix[1000])
 

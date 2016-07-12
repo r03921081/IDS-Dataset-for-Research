@@ -7,8 +7,8 @@ import random
 #---------------------------------------------------------------------------------
 # Feature Score Correlation ranking value
 
-#score_data = open("ranking/value_UNSW_attack_cat", "r")
-score_data = open("ranking/ig_UNSW_attack_cat", "r")
+score_data = open("ranking/value_UNSW_attack_cat", "r")
+#score_data = open("ranking/ig_UNSW_attack_cat", "r")
 score_map = {}
 for line in score_data:
 	token = line.split()
@@ -83,23 +83,23 @@ for label in attack_table:
 	if label == "Normal":
 		minsup = data.shape[0]
 	elif label == "Reconnaissance":
-		minsup = 500
+		minsup = data.shape[0]
 	elif label == "Backdoor":
-		minsup = 100
+		minsup = data.shape[0]
 	elif label == "DoS":
-		minsup = 500
+		minsup = data.shape[0]
 	elif label == "Exploits":
 		minsup = data.shape[0]
 	elif label == "Analysis":
-		minsup = 100
+		minsup = data.shape[0]
 	elif label == "Fuzzers":
 		minsup = data.shape[0]
 	elif label == "Worms":
-		minsup = 100
+		minsup = data.shape[0]
 	elif label == "Shellcode":
-		minsup = 100
+		minsup = data.shape[0]
 	elif label == "Generic":
-		minsup = 3000
+		minsup = data.shape[0]
 
 	label_item = {}
 	new_itemset = []

@@ -7,59 +7,103 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-#feature = ["is_sm_ips_ports", "dloss", "response_body_len", "dmean", "ct_dst_ltm", "is_ftp_login", "sbytes", "ackdat", "ct_dst_sport_ltm", "sloss", "trans_depth", "dload", "synack", "dpkts", "sttl", "tcprtt", "ct_srv_src", "ct_flw_http_mthd", "spkts", "dbytes"]
-
-feature = ["is_sm_ips_ports", "dloss", "response_body_len", "dmean", "ct_dst_ltm", "is_ftp_login", "sbytes", "ackdat", "ct_dst_sport_ltm", "sloss", "trans_depth", "dload", "synack", "dpkts", "sttl", "tcprtt", "ct_srv_src", "ct_flw_http_mthd", "spkts", "dbytes", "djit", "sjit", "sinpkt", "dinpkt"]
-
-print(len(feature))
+feature = ["ct_dst_sport_ltm"]
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
+raw_test_data = pd.read_csv("unsw/UNSW_NB15_testing-set.csv", delimiter=',', encoding="utf-8-sig")
 
 train_data = pd.DataFrame(index = raw_train_data.index, columns = feature)
+test_data = pd.DataFrame(index = raw_test_data.index, columns = feature)
 
 for item in feature:
 	train_data[item] = raw_train_data[item]
+	test_data[item] = raw_test_data[item]
 
 train_target = raw_train_data['label']
+test_target = raw_test_data['label']
 
-data = train_data.as_matrix()
-target = train_target.as_matrix()
+feature_train_data = train_data.as_matrix()
+feature_train_target = train_target.as_matrix()
 
-np_train_data, np_test_data, np_train_target, np_test_target = train_test_split(data, target, test_size = 0.33)
-
+feature_test_data = test_data.as_matrix()
+feature_test_target = test_target.as_matrix()
 
 # LogisticRegression
-model = linear_model.SGDClassifier()
-model.fit(np_train_data, np_train_target)
-print(model)
+#model = linear_model.SGDClassifier()
+#model.fit(np_train_data, np_train_target)
+#print(model)
 
-expected = np_test_target
-predicted = model.predict(np_test_data)
+#expected = np_test_target
+#predicted = model.predict(np_test_data)
 
-print("LogisticRegression")
-print(metrics.classification_report(expected, predicted))
-print(metrics.confusion_matrix(expected, predicted))
+#print(metrics.classification_report(expected, predicted))
+#print(metrics.confusion_matrix(expected, predicted))
+
 
 # NaiveBayes
 model = GaussianNB()
-model.fit(np_train_data, np_train_target)
+model.fit(feature_train_data, feature_train_target)
 print(model)
 
-expected = np_test_target
-predicted = model.predict(np_test_data)
+expected = feature_test_target
+predicted = model.predict(feature_test_data)
 
 print("NaiveBayes GaussianNB")
 print(metrics.classification_report(expected, predicted))
 print(metrics.confusion_matrix(expected, predicted))
 
 # DecisionTree
-model = DecisionTreeClassifier()
-model.fit(np_train_data, np_train_target)
-print(model)
+#model = DecisionTreeClassifier()
+#model.fit(np_train_data, np_train_target)
+#print(model)
 
-expected = np_test_target
-predicted = model.predict(np_test_data)
+#expected = np_test_target
+#predicted = model.predict(np_test_data)
 
-print("DecisionTree")
-print(metrics.classification_report(expected, predicted))
-print(metrics.confusion_matrix(expected, predicted))
+#print(metrics.classification_report(expected, predicted))
+#print(metrics.confusion_matrix(expected, predicted))
+
+true_positive = 0
+false_positive = 0
+true_negative = 0
+false_negative = 0
+
+for i in range(len(expected)):
+	if expected[i] == 0 and predicted[i] == 0:
+		true_positive = true_positive + 1
+	elif expected[i] == 1 and predicted[i] == 0:
+		false_positive = false_positive + 1
+	elif expected[i] == 1 and predicted[i] == 1:
+		true_negative = true_negative + 1
+	else: # if expected[i] == 0 && predicted[i] == 1
+		false_negative = false_negative + 1
+
+
+
+print("")
+print("Truth Table")
+print(str(true_positive) + "\t" + str(false_positive))
+print(str(false_negative) + "\t" + str(true_negative))
+print("")
+
+
+prediction_mother = true_positive + false_positive
+#print(prediction_mother)
+#print(true_positive)
+prediction = float(true_positive) / float(prediction_mother)
+print prediction
+
+recall = float(true_positive) / (true_positive + false_negative)
+print recall
+
+predict_normal = 0
+predict_abnormal = 0
+
+for i in range(len(predicted)):
+	if predicted[i] == 0:
+		predict_normal = predict_normal + 1
+	else:
+		predict_abnormal = predict_abnormal + 1
+print("")
+print(predict_normal)
+print(predict_abnormal)

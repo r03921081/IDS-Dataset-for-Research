@@ -7,10 +7,10 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["dload", "is_sm_ips_ports", "synack", "sttl"]
+feature = ["dloss", "dpkts", "dbytes"]
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
-raw_test_data = pd.read_csv("unsw/UNSW_NB15_testing-set.csv", delimiter=',', encoding="utf-8-sig")
+raw_test_data = pd.read_csv("unsw/UNSW_Second_Turn.csv", delimiter=',', encoding="utf-8-sig")
 
 train_data = pd.DataFrame(index = raw_train_data.index, columns = feature)
 test_data = pd.DataFrame(index = raw_test_data.index, columns = feature)
@@ -97,7 +97,7 @@ print ("Second Round Data: " + str(len(second_index)))
 print ("Second Round %: " + str(float(len(second_index))/raw_test_data.shape[0]))
 print second_data.shape
 
-second_data.to_csv("unsw/UNSW_Second_Turn.csv", sep=',', encoding='utf-8-sig')
+#second_data.to_csv("unsw/UNSW_Third_Turn.csv", sep=',', encoding='utf-8-sig')
 
 #-----------------------------------------------------------------------------
 
