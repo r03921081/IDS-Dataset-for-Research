@@ -7,7 +7,27 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["dload", "is_sm_ips_ports", "synack", "sttl"]
+# Anomaly Feature
+#feature = ["dload", "is_sm_ips_ports", "synack", "sttl"]
+
+# Union Feature
+#feature = ["djit", "is_sm_ips_ports", "dloss", "dpkts", "response_body_len", 
+#			"sbytes", "ackdat", "ct_dst_sport_ltm", "sloss", "trans_depth", 
+#			"dload", "sttl", "dbytes", "spkts"]
+
+# Anomaly Feature, Correlation Ranking
+feature = ["sttl", "dload"]
+
+# Union Feature, Correlation Ranking
+#feature = ["sttl", "dload", "ct_dst_sport_ltm"]
+
+# Anomaly Feature, Information Ranking
+#feature = ["dbytes", "dinpkt"]
+
+# Union Feature, Information Ranking
+#feature = ["dbytes", "dinpkt", "sbytes"]
+
+print "Feature Count: " + str(len(feature))
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
 raw_test_data = pd.read_csv("unsw/UNSW_NB15_testing-set.csv", delimiter=',', encoding="utf-8-sig")
@@ -84,29 +104,19 @@ print("")
 print("Predict Normal Data: " + str(predict_normal))
 print("Predict Anomaly Data: " + str(predict_abnormal))
 #-----------------------------------------------------------------------------
-
 second_index = []
 for i in range(len(predicted)):
 	if predicted[i] == 1: # Into next term
-		second_index.append(i+1)
-second_index_num = len(second_index)
+		second_index.append(i) # index
+#print second_index
 
 second_data = raw_test_data.ix[second_index]
 
 print ("Second Round Data: " + str(len(second_index)))
 print ("Second Round %: " + str(float(len(second_index))/raw_test_data.shape[0]))
-print second_data.shape
+#print second_data.shape
+#print second_data
 
-second_data.to_csv("unsw/UNSW_Second_Turn.csv", sep=',', encoding='utf-8-sig')
+#second_data.to_csv("unsw/UNSW_Testing_Second_Turn.csv", sep=',', encoding='utf-8-sig')
 
 #-----------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-

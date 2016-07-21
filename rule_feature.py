@@ -51,6 +51,7 @@ for feature in raw_train_data.columns:
 # Sampling
 
 sample_num = int(raw_train_data.shape[0] * 0.1)
+print sample_num
 train_data = raw_train_data.loc[random.sample(list(raw_train_data.index), sample_num)]
 #train_data = raw_train_data.sample(frac=0.2, replace=True)
 #---------------------------------------------------------------------------------
