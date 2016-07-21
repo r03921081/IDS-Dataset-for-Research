@@ -7,10 +7,10 @@ from sklearn.feature_extraction import DictVectorizer as dv
 from sklearn.cross_validation import train_test_split
 from sklearn import linear_model
 
-feature = ["dloss", "dpkts", "dbytes"]
+feature = ["ackdat"]
 
 raw_train_data = pd.read_csv("unsw/UNSW_NB15_training-set.csv", delimiter=',', encoding="utf-8-sig")
-raw_test_data = pd.read_csv("unsw/UNSW_Second_Turn.csv", delimiter=',', encoding="utf-8-sig")
+raw_test_data = pd.read_csv("unsw/UNSW_Testing_Second_Turn.csv", delimiter=',', encoding="utf-8-sig")
 
 train_data = pd.DataFrame(index = raw_train_data.index, columns = feature)
 test_data = pd.DataFrame(index = raw_test_data.index, columns = feature)
